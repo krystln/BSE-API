@@ -1,6 +1,11 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
+
+/*
+GET
+Query: name OR null
+*/
 const stock_get = async (req, res) => {
   if (req.query.name) {
     try {
@@ -28,6 +33,11 @@ const stock_get = async (req, res) => {
   }
 }
 
+/*
+POST
+Query: name AND code AND low AND high AND open AND close
+Used for internal purposes. Not used by the user.
+*/
 const stock_post = async (req, res) => {
   try {
     const { name, code, low, high, open, close } = req.query;
@@ -47,6 +57,11 @@ const stock_post = async (req, res) => {
   }
 }
 
+
+/*
+DELETE
+Query: name OR code OR null
+*/
 const stock_delete = async (req, res) => {
   if (req.query.name || req.query.code) {
     try {
@@ -72,6 +87,7 @@ const stock_delete = async (req, res) => {
   }
 }
 
+// Export the functions
 module.exports = {
   stock_get,
   stock_post,
