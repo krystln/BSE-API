@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
 
+const fs = require('fs');
 const { exec } = require('child_process');
+const { parse } = require('csv-parse');
 
 const { favourites_get, favourites_post, favourites_delete } = require('./favourites');
-const { stock_get, stock_post, stock_delete } = require('./stock');
+const { stock_get, stock_post, stock_delete, stock_post_csv } = require('./stock');
 
 
 app.get('/', (req, res) => {
@@ -34,19 +36,57 @@ if (!file) {
 // Start the server
 app.listen(3000, async () => {
   const url = `https://www.bseindia.com/download/BhavCopy/Equity/EQ${file}_CSV.ZIP`;
-  await exec('./src/scripts/download.ps1 ' + url + ' test ' + '\n./src/scripts/extract.ps1\n echo "Listening on Port 3000"',
+  exec('./src/scripts/download.ps1 ' + url + ' test ' +
+    '\n./src/scripts/extract.ps1',
     { "shell": "powershell.exe" },
     output
   );
+
+
 });
 
 
 // Output the result of the script
-const output = (error, stdout) => {
-  if (error) {
-    console.log(error);
+const output = async (err, stdout, stderr) => {
+  if (err || stderr) {
+    console.log(stderr);
     process.exit(1);
   } else {
     console.log(stdout);
+
+    console.log("Parsing file...");
+    try {
+      const file_name = `./downloads/EQ${file}.CSV`;
+      let data = [];
+
+      const reader = fs.createReadStream(file_name, 'utf8')
+        .pipe(
+          parse({
+            delimiter: ',',
+            columns: true,
+            trim: true,
+            bom: true
+          })
+        );
+
+      for await (const row of reader) {
+        data.push({
+          code: row.SC_CODE,
+          name: row.SC_NAME,
+          open: parseFloat(row.OPEN),
+          high: parseFloat(row.HIGH),
+          low: parseFloat(row.LOW),
+          close: parseFloat(row.CLOSE)
+        });
+      }
+
+      console.log("File Parsing complete\nUploading data...");
+      await stock_post_csv(data);
+      console.log("Data uploaded successfully\nListening on port 3000 : http://localhost:3000");
+
+    } catch (error) {
+      console.log(error);
+      process.exit(1);
+    }
   }
 }
