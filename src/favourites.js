@@ -1,6 +1,11 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+
+/*
+GET
+Query: null
+*/
 const favourites_get = async (req, res) => {
   try {
     const favourites = await prisma.favourites.findMany();
@@ -10,9 +15,13 @@ const favourites_get = async (req, res) => {
   }
 }
 
+/*
+POST
+Query: name AND code
+*/
 const favourites_post = async (req, res) => {
   try {
-    const name = req.query.name, code = req.query.code;
+    const { name, code } = req.query;
     const favourite = await prisma.favourites.create({
       data: {
         name: name,
@@ -25,6 +34,10 @@ const favourites_post = async (req, res) => {
   }
 }
 
+/*
+DELETE
+Query: code
+*/
 const favourites_delete = async (req, res) => {
   try {
     const code = req.query.code;
@@ -39,6 +52,7 @@ const favourites_delete = async (req, res) => {
   }
 }
 
+// Export the functions
 module.exports = {
   favourites_get,
   favourites_post,
