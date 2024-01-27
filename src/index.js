@@ -8,10 +8,10 @@ const { stock_get, stock_post, stock_delete } = require('./stock');
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hi, Welcome to the BSE Stock API');
 });
 
-// stock_get is a function that is exported from stock.js
+// stock_get, stock_delete is a function that is exported from stock.js
 app.route('/stocks')
   .get(stock_get)
   .post(stock_post)
@@ -23,7 +23,6 @@ app.route('/favourites')
   .post(favourites_post)
   .delete(favourites_delete);
 
-// Start the server
 
 const file = process.argv[2];
 if (!file) {
@@ -32,6 +31,7 @@ if (!file) {
 }
 
 
+// Start the server
 app.listen(3000, async () => {
   const url = `https://www.bseindia.com/download/BhavCopy/Equity/EQ${file}_CSV.ZIP`;
   await exec('./src/scripts/download.ps1 ' + url + ' test ' + '\n./src/scripts/extract.ps1\n echo "Listening on Port 3000"',
