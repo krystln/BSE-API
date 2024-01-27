@@ -1,0 +1,30 @@
+{
+	"name": "bse-api",
+	"version": "1.0.0",
+	"description": "Restful api for accessing BSE data",
+	"main": "src/index.js",
+	"scripts": {
+		"test": "node src/index.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/krystln/bse-api.git"
+	},
+	"keywords": [
+		"Node",
+		"Express",
+		"BSE",
+		"Api",
+		"Restful",
+		"REST"
+	],
+	"author": "Akshit Goyal",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/krystln/bse-api/issues"
+	},
+	"homepage": "https://github.com/krystln/bse-api#readme",
+	"dependencies": {
+		"express": "^4.18.2"
+	}
+}
