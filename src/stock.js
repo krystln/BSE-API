@@ -57,6 +57,15 @@ const stock_post = async (req, res) => {
   }
 }
 
+const stock_post_csv = async (data) => {
+  try {
+    await prisma.data.createMany({ data: data });
+    console.log('Stocks added');
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 /*
 DELETE
@@ -91,5 +100,6 @@ const stock_delete = async (req, res) => {
 module.exports = {
   stock_get,
   stock_post,
-  stock_delete
+  stock_delete,
+  stock_post_csv
 }
