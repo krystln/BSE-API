@@ -2,7 +2,9 @@
 
 This API has been created as an assignment for the interview process at [Hypergro](https://hypergro.ai/). This API fetches the data from [BSE India](https://www.bseindia.com/) and provides the data in JSON format. The code is written in Node.js and Express.js and uses MongoDB as the database with Prisma as the ORM.
 
-** YES I KNOW, .env files shouldn't be included. This db url will be removed and db deleted in a weeks time, i.e. 03-FEB-2024. **
+**YES I KNOW, .env files shouldn't be included. This db url will be removed and db deleted in a weeks time, i.e. 03-FEB-2024**
+
+The scripts are written for powershell.exe on windows and most probably won't work on linux. The scripts are written to be run in the root directory of the project.
 
 ## Requirements
 
@@ -20,6 +22,10 @@ Run the server with the following command:\
 Enter date in DDMMYY format to get the data for that date. If no date is entered, the data will not be fetched.
 
 ## Usage
+
+At server runtime, the ps1 scripts would download the data from the BSE site for mentioned date. If the data for the requested date is not present on the website then an error is thrown.\
+**Any error would prevent the server from starting as a safety measure!!**\
+The data is then extracted, parsed and stored in the database. The data is then available for use. Please remember to delete all data from the database before running the server again for the same date as data duplication **will** throws error.
 
 ### Stocks
 
