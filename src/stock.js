@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 const stock_get = async (req, res) => {
   if (req.query.name) {
     try {
-      const stock = await prisma.stock.findUnique({
+      const stock = await prisma.data.findUnique({
         where: {
           name: req.query.name
         }
@@ -15,7 +15,7 @@ const stock_get = async (req, res) => {
     }
   } else {
     try {
-      const stocks = await prisma.stock.findMany({
+      const stocks = await prisma.data.findMany({
         orderBy: {
           name: 'asc'
         },
@@ -23,17 +23,22 @@ const stock_get = async (req, res) => {
       });
       res.json({ status: 'Success', message: 'Stocks retrieved', data: stocks });
     } catch (error) {
-      res.json({ status: 'Failed', message: error });
+      res.json({ status: 'Failed', message: error.message });
     }
   }
 }
 
 const stock_post = async (req, res) => {
   try {
-    const stock = await prisma.stock.create({
+    const { name, code, low, high, open, close } = req.query;
+    const stock = await prisma.data.create({
       data: {
-        name: req.query.name,
-        code: req.query.code
+        name: name,
+        code: code,
+        open: parseFloat(open),
+        low: parseFloat(low),
+        high: parseFloat(high),
+        close: parseFloat(close)
       }
     });
     res.json({ status: 'Success', message: 'Stock added', data: stock });
@@ -42,7 +47,33 @@ const stock_post = async (req, res) => {
   }
 }
 
+const stock_delete = async (req, res) => {
+  if (req.query.name || req.query.code) {
+    try {
+      await prisma.data.delete({
+        where: {
+          OR: [
+            { name: req.query.name },
+            { code: req.query.code }
+          ]
+        }
+      });
+      res.json({ status: 'Success', message: 'Stock deleted' });
+    } catch (error) {
+      res.json({ status: 'Failed', message: error.message });
+    }
+  } else {
+    try {
+      await prisma.data.deleteMany();
+      res.json({ status: 'Success', message: 'All Stocks deleted' });
+    } catch (error) {
+      res.json({ status: 'Failed', message: error.message });
+    }
+  }
+}
+
 module.exports = {
   stock_get,
-  stock_post
+  stock_post,
+  stock_delete
 }

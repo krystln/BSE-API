@@ -4,7 +4,7 @@ const app = express();
 const { exec } = require('child_process');
 
 const { favourites_get, favourites_post, favourites_delete } = require('./favourites');
-const { stock_get } = require('./stock');
+const { stock_get, stock_post, stock_delete } = require('./stock');
 
 
 app.get('/', (req, res) => {
@@ -12,10 +12,13 @@ app.get('/', (req, res) => {
 });
 
 // stock_get is a function that is exported from stock.js
-app.route('/stocks').get(stock_get);
+app.route('/stocks')
+  .get(stock_get)
+  .post(stock_post)
+  .delete(stock_delete);
 
 // favourites_get, favourites_post, and favourites_delete are functions that are exported from favourites.js
-app.route('/favourite')
+app.route('/favourites')
   .get(favourites_get)
   .post(favourites_post)
   .delete(favourites_delete);
