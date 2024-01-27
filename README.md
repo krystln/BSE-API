@@ -2,6 +2,14 @@
 
 This API has been created as an assignment for the interview process at [Hypergro](https://hypergro.ai/). This API fetches the data from [BSE India](https://www.bseindia.com/) and provides the data in JSON format. The code is written in Node.js and Express.js and uses MongoDB as the database with Prisma as the ORM.
 
+** YES I KNOW, .env files shouldn't be included. This db url will be removed and db deleted in a weeks time, i.e. 03-FEB-2024. **
+
+## Requirements
+
+Express\
+Prisma\
+csv-parse\
+
 ## Installation
 
 Clone the repository and install the dependencies:\
