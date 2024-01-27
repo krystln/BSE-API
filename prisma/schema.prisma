@@ -9,8 +9,8 @@ datasource db {
 
 model Data {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  name      String     @unique
   code      String     @unique
+  name      String     
   open      Float
   low       Float
   high      Float
