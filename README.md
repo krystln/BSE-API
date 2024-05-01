@@ -1,8 +1,6 @@
 # BSE API
 
-This API has been created as an assignment for the interview process at [Hypergro](https://hypergro.ai/). This API fetches the data from [BSE India](https://www.bseindia.com/) and provides the data in JSON format. The code is written in Node.js and Express.js and uses MongoDB as the database with Prisma as the ORM.
-
-**YES I KNOW, .env files shouldn't be included. This db url will be removed and db deleted in a weeks time, i.e. 03-FEB-2024**
+This API fetches the data from [BSE India](https://www.bseindia.com/) as a zip file and parses and provides the data in JSON format. The code is written in Node.js and Express.js and uses MongoDB as the database with Prisma ORM.
 
 The scripts are written for powershell.exe on windows and most probably won't work on linux. The scripts are written to be run in the root directory of the project.
 
